@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card">
         <div class="card-header">
-        <span class="card-title"><strong>{{ $title[0] }}</strong></span>
+            <span class="card-title"><strong>{{ $title[0] }}</strong></span>
         </div>
         <div class="card-body">
             <div class="row">
@@ -18,9 +18,8 @@
                         <div class="col-lg-3 col-xl-2 strong">Alt name(s):</div>
                         <div class="col-lg-9 col-xl-10">
                             <ul class="list-inline m-0">
-                                @for($i=0 ; $i < count($altTitleCount) ; $i++)
-                                <li class="list-inline-item"><span class="fa fa-book fa-fw " aria-hidden="true"></span> {{ $altTitle[$i] }}</li>
-                                @endfor
+                                @for($i=0 ; $i < count($altTitleCount) ; $i++) <li class="list-inline-item"><span class="fa fa-book fa-fw " aria-hidden="true"></span> {{ $altTitle[$i] }}</li>
+                                    @endfor
                             </ul>
                         </div>
                     </div>
@@ -53,6 +52,19 @@
 
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="card mt-5">
+        <div class="card-header">
+            <span class="card-title"><strong>Chapters</strong></span>
+        </div>
+        <div class="card-body">
+            @foreach($chapters as $chapter)
+            <div class="row m-0 py-1 px-0 border-top">
+                <div class="col-lg-5 col-xl-4 strong"><a href="{{ url('read',$chapter[1]) }}">{{ $chapter[0] }}</a></div>
+            </div>
+            @endforeach
         </div>
     </div>
 

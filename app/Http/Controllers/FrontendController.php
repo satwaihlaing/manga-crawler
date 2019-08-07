@@ -32,6 +32,7 @@ class FrontendController extends Controller
         $title = $crawler->filter('.card-header > .mx-1')->extract(['_text']);
         $altTitle = $crawler->filter('.col-xl-10 > .m-0 > li  ')->extract(['_text']);
         $altTitleCount = $crawler->filter('.col-xl-10 > .m-0 > li .fa-book ')->extract(['_text']);
+        $chapters = $crawler->filter('.chapter-row > .col-lg-5 > a')->extract(['_text','href']);
 
         $txt = $crawler->filter('.row')->extract(['_text']);
         $author = $this->getName($txt[2]);
@@ -41,8 +42,8 @@ class FrontendController extends Controller
         $status = $this->getName($txt[9]);
         $description = $this->getName($txt[11]);
         
-        // dd($altTitleCount);
-        return view('detail',compact('title','image','author','artist','demographic','genre','status','description','altTitle','altTitleCount'));
+        // dd($chapters);
+        return view('detail',compact('title','image','author','artist','demographic','genre','status','description','altTitle','altTitleCount','chapters'));
     }
 
     public function getName($name){
@@ -50,4 +51,15 @@ class FrontendController extends Controller
         $realName = $explode[1];
         return $realName;
     }
+
+    public function read(Request $request, $link){
+        $url = "https://mangadex.org".$link;
+        $client = new Client();
+        $crawler = $client->request('GET', $url);
+
+        $image = $crawler->filter('img')->extract(['src']);
+        dd($image);
+
+    }
+
 }
