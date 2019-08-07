@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Goutte\Client;
+use function GuzzleHttp\json_decode;
 
 class FrontendController extends Controller
 {
@@ -53,12 +54,17 @@ class FrontendController extends Controller
     }
 
     public function read(Request $request, $link){
-        $url = "https://mangadex.org".$link;
-        $client = new Client();
-        $crawler = $client->request('GET', $url);
-
-        $image = $crawler->filter('img')->extract(['src']);
-        dd($image);
+        $url = "https://mangadex.org/api".$link;
+        $client = file_get_contents($url);
+        $result = json_decode($client);
+        $server = $result->server;
+        $hash = $result->hash;
+        $url = $server.$hash;
+        $pages = $result->page_array;
+        // dd($url);
+        return view('reader',compact('url','pages'));
+        // https://s4.mangadex.org/data/h1.jpg
+        
 
     }
 
