@@ -98,6 +98,14 @@ class FrontendController extends Controller
         return \Response::json(['message' => 'success']);
     }
 
+    public function unfav(Request $request){
+        
+        Bookmark::where('user_id', $request->userID)
+        ->where('link', $request->link)
+        ->delete();
+        return \Response::json(['message' => 'success']);
+    }
+
     public function library()
     {
         $bookmarks = Bookmark::where('user_id', Auth::user()->id)->get();

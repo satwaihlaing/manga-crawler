@@ -100,9 +100,10 @@
     <script>
         // Favorite Button - Heart
         $('.favme').click(function() {
-            $(this).toggleClass('active');
+            
 
             if ($('#user_id').text() != "null") {
+                $(this).toggleClass('active');
                 if ($('.favme').hasClass('active')) {
                     $.ajax({
                         url: '/favourite',
@@ -115,8 +116,20 @@
                             link: "{{ $link }}"
                         }
                     });
+                    console.log("manga add");
+                }else{
+                    $.ajax({
+                        url: '/removeFavourite',
+                        type: 'POST',
+                        data: {
+                            '_token': $('meta[name=csrf-token]').attr('content'),
+                            userID: $('#user_id').text(),
+                            link: "{{ $link }}"
+                        }
+                    });
+                    console.log("manga remove");
                 }
-                console.log("manga add");
+                
             } else {
                 $('#alert').removeClass('d-none');
             }

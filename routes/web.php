@@ -23,6 +23,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::post('favourite', 'FrontendController@favourite');
     Route::get('library', 'FrontendController@library');
+    Route::post('removeFavourite', 'FrontendController@unfav');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
