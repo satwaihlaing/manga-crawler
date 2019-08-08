@@ -17,8 +17,12 @@
 Route::get('/', 'FrontendController@index');
 Route::get('detail/{link}', 'FrontendController@detail')->where('link', '.*');
 Route::get('read/{link}', 'FrontendController@read')->where('link', '.*');
-Route::post('favourite', 'FrontendController@favourite');
-Route::get('library', 'FrontendController@library');
+
+
 Auth::routes();
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('favourite', 'FrontendController@favourite');
+    Route::get('library', 'FrontendController@library');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');

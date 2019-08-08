@@ -16,15 +16,20 @@
 @endsection
 @section('content')
 <div class="container">
+    <div class="alert alert-primary d-none" id="alert" role="alert">
+        You need to Login first to add the manga as favourite!
+    </div>
     <div class="card">
         <div class="card-header">
             <span class="card-title"><strong>{{ $title[0] }}</strong></span>
-
-
             <div class="fav-btn">
-                <span href="" class="favme dashicons dashicons-heart"></span>
+                <span href="" class="favme dashicons dashicons-heart {{ ($checked!=0)? 'active' :'' }}"></span>
             </div>
-
+            @if(\Auth::check())
+            <span class="d-none" id="user_id">{{ Auth::user()->id }}</span>
+            @else
+            <span class="d-none" id="user_id">null</span>
+            @endif
 
         </div>
         <div class="card-body">
@@ -96,19 +101,26 @@
         // Favorite Button - Heart
         $('.favme').click(function() {
             $(this).toggleClass('active');
-            if ($('.favme').hasClass('active')) {
-                $.ajax({
-                    url: '/favourite',
-                    type: 'POST',
-                    data: {
-                        '_token': $('meta[name=csrf-token]').attr('content'),
-                        userID: "{{ Auth::user()->id }}",
-                        title: "{{ $title[0] }}",
-                        image: "https://mangadex.org{{ $image[0] }}",
-                        link: "{{ $url }}"
-                    }
-                });
+
+            if ($('#user_id').text() != "null") {
+                if ($('.favme').hasClass('active')) {
+                    $.ajax({
+                        url: '/favourite',
+                        type: 'POST',
+                        data: {
+                            '_token': $('meta[name=csrf-token]').attr('content'),
+                            userID: $('#user_id').text(),
+                            title: "{{ $title[0] }}",
+                            image: "https://mangadex.org{{ $image[0] }}",
+                            link: "{{ $link }}"
+                        }
+                    });
+                }
+                console.log("manga add");
+            } else {
+                $('#alert').removeClass('d-none');
             }
+
 
         });
     </script>

@@ -22,13 +22,5 @@
         </div>
     </div>
 </div>
-<style>
-.crop-text-1 {
-    -webkit-line-clamp: 2;
-  overflow : hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-}
-</style>
+
 @endsection
