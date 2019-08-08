@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Goutte\Client;
+use App\Bookmark;
 use function GuzzleHttp\json_decode;
 
 class FrontendController extends Controller
@@ -43,8 +44,7 @@ class FrontendController extends Controller
         $status = $this->getName($txt[9]);
         $description = $this->getName($txt[11]);
         
-        // dd($chapters);
-        return view('detail',compact('title','image','author','artist','demographic','genre','status','description','altTitle','altTitleCount','chapters'));
+        return view('detail',compact('title','image','author','artist','demographic','genre','status','description','altTitle','altTitleCount','chapters','url'));
     }
 
     public function getName($name){
@@ -61,11 +61,27 @@ class FrontendController extends Controller
         $hash = $result->hash;
         $url = $server.$hash;
         $pages = $result->page_array;
-        // dd($url);
-        return view('reader',compact('url','pages'));
-        // https://s4.mangadex.org/data/h1.jpg
         
+        return view('reader',compact('url','pages'));
+        
+    }
 
+    public function favourite(Request $request){
+        
+        $website_info = Bookmark::where('user_id',$request->userID)
+        ->where('link',$request->link)
+        ->get();
+
+        if (count($website_info) == 0) {
+            $bookmark = Bookmark::create([
+                'user_id' => $request->userID,
+                'title' => $request->title,
+                'image' => $request->image,
+                'link' => $request->link,
+            ]);
+        }
+
+        return \Response::json(['message' => 'success']);
     }
 
 }

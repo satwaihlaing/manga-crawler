@@ -1,10 +1,31 @@
 @extends('layouts.app')
+@section('css')
+<link rel="stylesheet" href="https://unpkg.com/@icon/dashicons/dashicons.css">
+<style>
+    .fav-btn {
+        display: flex;
+        height: 100%;
+        color: #CBCDCE;
+        float: right;
+    }
 
+    .active {
+        color: #DC3232;
+    }
+</style>
+@endsection
 @section('content')
 <div class="container">
     <div class="card">
         <div class="card-header">
             <span class="card-title"><strong>{{ $title[0] }}</strong></span>
+
+
+            <div class="fav-btn">
+                <span href="" class="favme dashicons dashicons-heart"></span>
+            </div>
+
+
         </div>
         <div class="card-body">
             <div class="row">
@@ -68,4 +89,27 @@
         </div>
     </div>
 
+
+    @endsection
+    @section('script')
+    <script>
+        // Favorite Button - Heart
+        $('.favme').click(function() {
+            $(this).toggleClass('active');
+            if ($('.favme').hasClass('active')) {
+                $.ajax({
+                    url: '/favourite',
+                    type: 'POST',
+                    data: {
+                        '_token': $('meta[name=csrf-token]').attr('content'),
+                        userID: "{{ Auth::user()->id }}",
+                        title: "{{ $title[0] }}",
+                        image: "https://mangadex.org{{ $image[0] }}",
+                        link: "{{ $url }}"
+                    }
+                });
+            }
+
+        });
+    </script>
     @endsection
