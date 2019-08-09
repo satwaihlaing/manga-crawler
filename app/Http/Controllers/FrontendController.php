@@ -31,7 +31,7 @@ class FrontendController extends Controller
 
     public function detail(Request $request, $link)
     {
-        $url = "https://mangadex.org" . $link;
+        $url = "https://mangadex.org/" . $link;
         $client = new Client();
         $crawler = $client->request('GET', $url);
 
@@ -69,7 +69,7 @@ class FrontendController extends Controller
 
     public function read(Request $request, $link)
     {
-        $url = "https://mangadex.org/api" . $link;
+        $url = "https://mangadex.org/api/" . $link;
         $client = file_get_contents($url);
         $result = json_decode($client);
         $server = $result->server;

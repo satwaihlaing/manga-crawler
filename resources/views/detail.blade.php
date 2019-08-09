@@ -88,7 +88,7 @@
         <div class="card-body">
             @foreach($chapters as $chapter)
             <div class="row m-0 py-1 px-0 border-top">
-                <div class="col-lg-5 col-xl-4 strong"><a href="{{ url('read',$chapter[1]) }}">{{ $chapter[0] }}</a></div>
+                <div class="col-lg-5 col-xl-4 strong"><a href="{{ url('read'.$chapter[1]) }}">{{ $chapter[0] }}</a></div>
             </div>
             @endforeach
         </div>
