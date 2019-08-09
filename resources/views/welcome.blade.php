@@ -13,7 +13,7 @@
                     <div class="card mt-3">
                         <img class="card-img-top" src="https://mangadex.org/{{ $images[$key] }}" height="300px" alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="text-truncate"> <a href="{{ url('detail',$value[1]) }}">{{ $value[0] }}</a></h5>
+                            <h5 class="text-truncate"> <a href="{{ url('detail'.$value[1]) }}">{{ $value[0] }}</a></h5>
                         </div>
                     </div>
                 </div>
