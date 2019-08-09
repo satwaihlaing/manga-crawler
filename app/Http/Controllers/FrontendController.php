@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
-    public function index(Request $request, $num = "/updates/1/")
+    public function index(Request $request, $num = "updates/1/")
     {
         $pageNum = explode('/', $num);
-        $pageNum = $pageNum[2];
+        $pageNum = $pageNum[1];
         $url = "https://mangadex.org/updates/" . $pageNum;
         $client = new Client();
         $crawler = $client->request('GET', $url);

@@ -23,18 +23,18 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="page-item">
-                            <a class="page-link" href="{{ url('page',$paging[0][0]) }}" aria-label="Previous">
+                            <a class="page-link" href="{{ url('page'.$paging[0][0]) }}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
                             </a>
                         </li>
                         @foreach($paging as $key => $page)
                         @if($key!=0 && $key!=array_key_last($paging))
-                        <li class="{{ $active[$key] }}"><a class="page-link" href="{{ url('page',$page[0]) }}">{{ $page[1] }}</a></li>
+                        <li class="{{ $active[$key] }}"><a class="page-link" href="{{ url('page'.$page[0]) }}">{{ $page[1] }}</a></li>
                         @endif
                         @endforeach
                         <li class="page-item">
-                            <a class="page-link" href="{{ url('page',end($paging)[0]) }}" aria-label="Next">
+                            <a class="page-link" href="{{ url('page'.end($paging)[0]) }}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
                             </a>
