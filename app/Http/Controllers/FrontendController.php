@@ -10,20 +10,23 @@ use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
-    public function index()
+    public function index(Request $request, $num = "/updates/1/")
     {
-        $url = "https://mangadex.org/updates";
+        $pageNum = explode('/', $num);
+        $pageNum = $pageNum[2];
+        $url = "https://mangadex.org/updates/" . $pageNum;
         $client = new Client();
         $crawler = $client->request('GET', $url);
 
         $showsLinkAndName = $crawler->filter('td .ellipsis > .manga_title')->extract(['_text', 'href']);
         $images = $crawler->filter('.medium_logo > a > img')->extract(['src']);
-
+        $paging = $crawler->filter('.page-item > a')->extract(['href', '_text']);
+        $active = $crawler->filter('.pagination > .page-item')->extract(['class']);
+        
         // $images = $crawler->filter(".medium_logo > a > img")->each(function ($node) {
         //     return $posts[] = preg_replace('/\s/', '', $node->attr('src'));
         // });
-
-        return view('welcome', compact('showsLinkAndName', 'images'));
+        return view('welcome', compact('showsLinkAndName', 'images', 'paging','active'));
     }
 
     public function detail(Request $request, $link)
@@ -54,8 +57,6 @@ class FrontendController extends Controller
                 $checked = 1;
             }
         }
-
-
         return view('detail', compact('title', 'image', 'author', 'artist', 'demographic', 'genre', 'status', 'description', 'altTitle', 'altTitleCount', 'chapters', 'link', 'checked'));
     }
 
@@ -98,11 +99,12 @@ class FrontendController extends Controller
         return \Response::json(['message' => 'success']);
     }
 
-    public function unfav(Request $request){
-        
+    public function unfav(Request $request)
+    {
+
         Bookmark::where('user_id', $request->userID)
-        ->where('link', $request->link)
-        ->delete();
+            ->where('link', $request->link)
+            ->delete();
         return \Response::json(['message' => 'success']);
     }
 

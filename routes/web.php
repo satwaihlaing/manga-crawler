@@ -15,6 +15,7 @@
 //     return view('welcome');
 // });
 Route::get('/', 'FrontendController@index');
+Route::get('page/{num}', 'FrontendController@index')->where('num', '.*');
 Route::get('detail/{link}', 'FrontendController@detail')->where('link', '.*');
 Route::get('read/{link}', 'FrontendController@read')->where('link', '.*');
 
