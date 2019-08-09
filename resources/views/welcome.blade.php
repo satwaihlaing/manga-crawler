@@ -19,7 +19,7 @@
                 </div>
                 @endforeach
             </div>
-            {{-- <div class="row justify-content-center mt-5">
+             <div class="row justify-content-center mt-5">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="page-item">
@@ -41,7 +41,7 @@
                         </li>
                     </ul>
                 </nav>
-            </div>--}}
+            </div>
 
         </div>
     </div>

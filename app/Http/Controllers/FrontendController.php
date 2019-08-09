@@ -10,19 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
-    public function index(Request $request, $num = "updates/1/")
+    public function index(Request $request, $num = "titles/0/1/")
     {
         $pageNum = explode('/', $num);
-        $pageNum = $pageNum[1];
-        $url = "https://mangadex.org/updates/" . $pageNum;
+        $pageNum = $pageNum[2];
+        $url = "https://mangadex.org/titles/0/".$pageNum;
         $client = new Client();
         $crawler = $client->request('GET', $url);
 
-        $showsLinkAndName = $crawler->filter('td .ellipsis > .manga_title')->extract(['_text', 'href']);
-        $images = $crawler->filter('.medium_logo > a > img')->extract(['src']);
+        $showsLinkAndName = $crawler->filter('.text-truncate >.manga_title')->extract(['_text', 'href']);
+        $images = $crawler->filter('.rounded > a > img')->extract(['src']);
         $paging = $crawler->filter('.page-item > a')->extract(['href', '_text']);
         $active = $crawler->filter('.pagination > .page-item')->extract(['class']);
-        
+        // dd($paging);
         // $images = $crawler->filter(".medium_logo > a > img")->each(function ($node) {
         //     return $posts[] = preg_replace('/\s/', '', $node->attr('src'));
         // });
