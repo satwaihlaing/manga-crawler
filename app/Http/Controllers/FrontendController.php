@@ -110,7 +110,7 @@ class FrontendController extends Controller
 
     public function library()
     {
-        $bookmarks = Bookmark::where('user_id', Auth::user()->id)->paginate(4);
+        $bookmarks = Bookmark::where('user_id', Auth::user()->id)->paginate(8);
         return view('library', compact('bookmarks'));
     }
 }
