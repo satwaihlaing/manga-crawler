@@ -34,6 +34,10 @@
                 </div>
                 @endforeach
             </div>
+            <div class="row justify-content-center mt-5">
+            {{ $bookmarks->links() }}
+            </div>
+            
         </div>
     </div>
 </div>
