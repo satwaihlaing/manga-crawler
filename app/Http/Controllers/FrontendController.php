@@ -113,4 +113,23 @@ class FrontendController extends Controller
         $bookmarks = Bookmark::where('user_id', Auth::user()->id)->paginate(8);
         return view('library', compact('bookmarks'));
     }
+
+    public function sitemap(){
+
+        $Url = "https://mangadex.org/titles/0/1";
+        $client = new Client();
+        $crawler = $client->request('GET', $Url);
+        $paging = $crawler->filter('.page-item > a')->extract(['href', '_text']);
+        $lastkey = end($paging)[0];
+        $lastNum = explode('/', $lastkey);
+        $lastArrayNum = $lastNum[3];
+        
+        for ($i=1; $i <= $lastArrayNum ; $i++) { 
+            $pagingUrl[] = url("page/title/0/".$i);
+        }
+        
+        $content = \View::make('sitemap', ['pagingUrl' => $pagingUrl]);
+        return \Response::make($content)->header('Content-Type', 'text/xml;charset=utf-8');
+        
+     }
 }

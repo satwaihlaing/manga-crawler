@@ -14,6 +14,11 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get("sitemap.xml", array(
+    "as"   => "sitemap",
+    "uses" => "FrontendController@sitemap",
+));
+
 Route::get('/', 'FrontendController@index');
 Route::get('page/{num}', 'FrontendController@index')->where('num', '.*');
 Route::get('detail/{link}', 'FrontendController@detail')->where('link', '.*');
