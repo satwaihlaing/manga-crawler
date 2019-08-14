@@ -72,12 +72,16 @@ class FrontendController extends Controller
         $url = "https://mangadex.org/api/" . $link;
         $client = file_get_contents($url);
         $result = json_decode($client);
+        $timeStamp = $result->timestamp;
         $server = $result->server;
+        if (strpos($server, 'mangadex') === false) {
+            $server = "https://mangadex.org".$server;
+        }
         $hash = $result->hash;
         $url = $server . $hash;
         $pages = $result->page_array;
 
-        return view('reader', compact('url', 'pages'));
+        return view('reader', compact('url', 'pages','timeStamp'));
     }
 
     public function favourite(Request $request)

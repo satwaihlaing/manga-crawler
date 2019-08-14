@@ -6,7 +6,7 @@
     <div id="galley">
       <ul class="pictures">
           @foreach($pages as $page)
-        <li><img src="{{ $url }}/{{ $page }}" alt="Cuo Na Lake"></li>
+        <li><img src="{{ $url }}/{{ $page }}?t={{ $timeStamp }}" alt="Cuo Na Lake"></li>
         @endforeach
       </ul>
     </div>
