@@ -7,6 +7,7 @@ use Goutte\Client;
 use App\Bookmark;
 use function GuzzleHttp\json_decode;
 use Illuminate\Support\Facades\Auth;
+use File;
 
 class FrontendController extends Controller
 {
@@ -80,8 +81,19 @@ class FrontendController extends Controller
         $hash = $result->hash;
         $url = $server . $hash;
         $pages = $result->page_array;
-
-        return view('reader', compact('url', 'pages','timeStamp'));
+        if(! \Storage::disk('public')->has($hash)){
+            foreach ($pages as $key => $value) {
+                $tempurl = $url."/".$value;
+                $contents = file_get_contents($tempurl);
+                $name = substr($tempurl, strrpos($tempurl, '/') + 1);
+                \Storage::put("public/".$hash."/".$name, $contents);
+            }
+        }
+        
+        $files = \Storage::disk('public')->files($hash);
+        natsort($files);
+        
+        return view('reader', compact('url', 'pages','timeStamp', 'files'));
     }
 
     public function favourite(Request $request)

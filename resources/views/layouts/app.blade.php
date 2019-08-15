@@ -12,15 +12,15 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/viewer.js') }}"></script>
-
+    <link rel="stylesheet" href="https://unpkg.com/iv-viewer/dist/iv-viewer.css">
+    <script src="https://unpkg.com/iv-viewer/dist/iv-viewer.js"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/viewer.css') }}" rel="stylesheet">
+    
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145589108-1"></script>
     <script>
