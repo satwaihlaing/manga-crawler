@@ -92,7 +92,7 @@ class FrontendController extends Controller
         
         $files = \Storage::disk('public')->files($hash);
         natsort($files);
-        
+        dd($files);
         return view('reader', compact('url', 'pages','timeStamp', 'files'));
     }
 
