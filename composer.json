@@ -52,7 +52,7 @@
     "scripts": {
         "post-install-cmd": [
             "php artisan optimize",
-            "chmod -R 777 /storage"
+            "chmod -R 777 storage"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
