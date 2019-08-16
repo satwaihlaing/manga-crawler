@@ -51,7 +51,6 @@
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
-            "php artisan optimize",
             "chmod -R 777 storage"
         ],
         "post-autoload-dump": [
