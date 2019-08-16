@@ -51,8 +51,8 @@
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
-            "chmod -R 777 storage",
-            "php artisan storage:link"
+            "php artisan storage:link",
+            "chmod -R 777 storage"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
