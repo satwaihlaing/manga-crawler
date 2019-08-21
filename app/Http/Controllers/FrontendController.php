@@ -8,6 +8,7 @@ use App\Bookmark;
 use function GuzzleHttp\json_decode;
 use Illuminate\Support\Facades\Auth;
 use File;
+use JD\Cloudder\Facades\Cloudder;
 
 class FrontendController extends Controller
 {
@@ -15,7 +16,7 @@ class FrontendController extends Controller
     {
         $pageNum = explode('/', $num);
         $pageNum = $pageNum[2];
-        $url = "https://mangadex.org/titles/0/".$pageNum;
+        $url = "https://mangadex.org/titles/0/" . $pageNum;
         $client = new Client();
         $crawler = $client->request('GET', $url);
 
@@ -27,7 +28,7 @@ class FrontendController extends Controller
         // $images = $crawler->filter(".medium_logo > a > img")->each(function ($node) {
         //     return $posts[] = preg_replace('/\s/', '', $node->attr('src'));
         // });
-        return view('welcome', compact('showsLinkAndName', 'images', 'paging','active'));
+        return view('welcome', compact('showsLinkAndName', 'images', 'paging', 'active'));
     }
 
     public function detail(Request $request, $link)
@@ -76,24 +77,36 @@ class FrontendController extends Controller
         $timeStamp = $result->timestamp;
         $server = $result->server;
         if (strpos($server, 'mangadex') === false) {
-            $server = "https://mangadex.org".$server;
+            $server = "https://mangadex.org" . $server;
         }
         $hash = $result->hash;
         $url = $server . $hash;
         $pages = $result->page_array;
-        if(! \Storage::disk('public')->has($hash)){
+        $resource =  $this->getResource($hash);
+        if (count($resource) == 0) {
             foreach ($pages as $key => $value) {
-                $tempurl = $url."/".$value;
-                $contents = file_get_contents($tempurl);
-                $name = substr($tempurl, strrpos($tempurl, '/') + 1);
-                \Storage::put("public/".$hash."/".$name, $contents);
+                $tempurl = $url . "/" . $value;
+                $upload = Cloudder::upload($tempurl, $key + 1, ["folder" => $hash]);
             }
+            $resource =  $this->getResource($hash);
         }
-        
-        $files = \Storage::disk('public')->files($hash);
-        natsort($files);
-        
-        return view('reader', compact('url', 'pages','timeStamp', 'files'));
+
+        $sorted = $resource->sortBy('secure_url');
+        $files = $sorted->toArray();
+        return view('reader', compact('url', 'pages', 'timeStamp', 'files'));
+    }
+
+    public function getResource($folderName)
+    {
+        $show = Cloudder::resources(array(
+            "type" => "upload",
+            "prefix" => $folderName . "/",
+            "max_results" => 100
+        ));
+        $show =  json_encode($show);
+        $show =  json_decode($show);
+        $resource =  collect($show->resources);
+        return $resource;
     }
 
     public function favourite(Request $request)
@@ -130,7 +143,8 @@ class FrontendController extends Controller
         return view('library', compact('bookmarks'));
     }
 
-    public function sitemap(){
+    public function sitemap()
+    {
 
         $Url = "https://mangadex.org/titles/0/1";
         $client = new Client();
@@ -139,13 +153,12 @@ class FrontendController extends Controller
         $lastkey = end($paging)[0];
         $lastNum = explode('/', $lastkey);
         $lastArrayNum = $lastNum[3];
-        
-        for ($i=1; $i <= $lastArrayNum ; $i++) { 
-            $pagingUrl[] = url("page/title/0/".$i);
+
+        for ($i = 1; $i <= $lastArrayNum; $i++) {
+            $pagingUrl[] = url("page/title/0/" . $i);
         }
-        
+
         $content = \View::make('sitemap', ['pagingUrl' => $pagingUrl]);
         return \Response::make($content)->header('Content-Type', 'text/xml;charset=utf-8');
-        
-     }
+    }
 }

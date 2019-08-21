@@ -47,7 +47,7 @@
   <!-- <h1>Viewer with custom title</h1> -->
   <div id="image-gallery-1" class="cf">
     @foreach($files as $file)
-    <img src="{{ asset('storage/'.$file) }}" data-high-res-src="{{ asset('storage/'.$file) }}" alt="" class="gallery-items img-fluid">
+    <img src="{{ $file->url }}" data-high-res-src="{{ $file->url }}" alt="" class="gallery-items img-fluid">
 
     @endforeach
 
