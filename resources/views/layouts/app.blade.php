@@ -12,8 +12,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <link rel="stylesheet" href="https://unpkg.com/iv-viewer/dist/iv-viewer.css">
-    <script src="https://unpkg.com/iv-viewer/dist/iv-viewer.js"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">

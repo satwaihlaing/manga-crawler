@@ -49,7 +49,7 @@ class FrontendController extends Controller
         $demographic = $this->getName($txt[4]);
         $genre = $this->getName($txt[6]);
         $status = $this->getName($txt[9]);
-        $description = $this->getName($txt[11]);
+        $description = $crawler->filterXpath('//meta[@name="description"]')->attr('content');
         $checked = 0;
         if (\Auth::check()) {
             $website_info = Bookmark::where('user_id', \Auth::user()->id)
