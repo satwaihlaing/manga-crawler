@@ -86,11 +86,15 @@
             <span class="card-title"><strong>Chapters</strong></span>
         </div>
         <div class="card-body">
+            @if(count($chapters))
             @foreach($chapters as $chapter)
             <div class="row m-0 py-1 px-0 border-top">
                 <div class="col-lg-5 col-xl-4 strong"><a href="{{ url('read'.$chapter[1]) }}">{{ $chapter[0] }}</a></div>
             </div>
             @endforeach
+            @else
+            <label> There is no chapter to show. </label>
+            @endif
         </div>
     </div>
 
