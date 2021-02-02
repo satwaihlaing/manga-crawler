@@ -12,7 +12,7 @@
         "fabpot/goutte": "^3.2",
         "fideloper/proxy": "^4.0",
         "jrm2k6/cloudder": "^0.6.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "6.20.*",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {
